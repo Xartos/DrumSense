@@ -31,4 +31,5 @@
 # Debug files
 *.dSYM/
 *.su
-code/DrumSense/Debug
+
+code/DrumTrigger/DrumSense/Debug
