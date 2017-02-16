@@ -11,6 +11,8 @@
 #include <util/delay.h> //_delay_ms
 #include <stdlib.h>		//rand
 
+#include "UARTProtocol.h"
+
 #define ADCTHRESHOLD (1024 / 2)
 #define LEDFADE 8
 #define LEDMAX 0xFF
@@ -31,6 +33,7 @@ typedef struct LED_t {
 void initLEDs();
 void initADCs();
 uint16_t readADC();
+uint8_t UARTData(uint8_t byte);
 void getRandomStartColor(LED_t* leds);
 void bumpLEDS(LED_t* leds);
 void decreaseLED(LED_t* leds);
@@ -44,10 +47,12 @@ int main(void){
 	leds.B = LEDGLOWB;
 	leds.newColor = 1;
 
+	UART.RecieveCallback = UARTData;
+
 	// Initialize
 	initLEDs();
 	initADCs();
-	//initUSART();
+	initUSART();
 
 	// Wait for ADC to make some readings
 	_delay_ms(100);
@@ -119,17 +124,15 @@ void initADCs(){
 	ADCSRA |= (1 << ADEN) | (1 << ADSC);
 }
 
-// TODO: fix
-/*
-void initUSART(){
-
-}*/
-
 /*
  * Returns the value of the 10-bit ADC register
  */
 uint16_t readADC(){
 	return ADC;
+}
+
+uint8_t UARTData(uint8_t byte){
+	return 0;
 }
 
 
