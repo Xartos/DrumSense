@@ -33,7 +33,7 @@ typedef struct LED_t {
 void initLEDs();
 void initADCs();
 uint16_t readADC();
-uint8_t UARTData(uint8_t byte);
+uint8_t UARTData(uint8_t command, uint8_t data);
 void getRandomStartColor(LED_t* leds);
 void bumpLEDS(LED_t* leds);
 void decreaseLED(LED_t* leds);
@@ -47,6 +47,7 @@ int main(void){
 	leds.B = LEDGLOWB;
 	leds.newColor = 1;
 
+	// Set callback function
 	UART.RecieveCallback = UARTData;
 
 	// Initialize
@@ -131,7 +132,12 @@ uint16_t readADC(){
 	return ADC;
 }
 
-uint8_t UARTData(uint8_t byte){
+uint8_t UARTData(uint8_t command, uint8_t data){
+	if(command == UART_COMMAND_LEDR){
+
+		// TODO: get led struct somehow
+		//leds->R = data;
+	}
 	return 0;
 }
 

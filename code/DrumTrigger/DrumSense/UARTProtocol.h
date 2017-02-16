@@ -17,9 +17,14 @@
 #define UART_COMMAND_STOP 0
 #define UART_COMMAND_START 1
 #define UART_COMMAND_DATA 2
+#define UART_COMMAND_LEDR 3
+#define UART_COMMAND_LEDG 4
+#define UART_COMMAND_LEDB 5
 /*#define UART_COMMAND_STOP 0
-#define UART_COMMAND_STOP 0
 #define UART_COMMAND_STOP 0*/
+
+#define UART_RESPONSE_ACK 0
+#define UART_RESPONSE_NACK 1
 
 #define UART_STATUS_LISTENING 0
 #define UART_STATUS_IDLE 1
@@ -33,7 +38,7 @@
 typedef struct UART_t {
 	uint8_t status; // Master init with a stop command
 	uint8_t lastStatus;
-	uint8_t (*RecieveCallback)(uint8_t);
+	uint8_t (*RecieveCallback)(uint8_t, uint8_t);
 	uint8_t addr;
 	uint8_t command;
 	uint8_t data;

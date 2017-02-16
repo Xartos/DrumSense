@@ -16,6 +16,7 @@
 #define MYADDR 0x01
 #endif*/
 
+// TODO: Set TX to output only when in active mode
 // UART receive Interrupt
 ISR(USART_RX_vect) {
 	uint8_t byte = UDR0;
@@ -45,11 +46,17 @@ ISR(USART_RX_vect) {
 			// Master polled this device
 			UART.status = UART_STATUS_ACTIVE;
 
+			uartTransmittByte(UART_RESPONSE_ACK);
 		} else if (UART.status == UART_STATUS_ACTIVE && UART.addr == MYADDR) {
 			//  Master sent data to me, call user defined function
-			uint8_t res = UART.RecieveCallback(UART.data);
+			uint8_t res = UART.RecieveCallback(UART.command, UART.data);
 
-			//TODO: check result
+			if(res){
+				uartTransmittByte(UART_RESPONSE_NACK);
+				return;
+			}
+			
+			uartTransmittByte(UART_RESPONSE_ACK);
 
 		} else if (UART.status == UART_STATUS_LISTENING && UART.addr != MYADDR) {
 			// Master polled another device, go to idle
