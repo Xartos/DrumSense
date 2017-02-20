@@ -31,6 +31,8 @@ ISR(USART_RX_vect) {
 		// Save last status and flag that first data is received
 		UART.lastStatus = UART.status;
 		UART.status = UART_STATUS_PART;
+
+		//TODO: start timer and reset on interrupt
 	} else {
 		// Second byte received
 
@@ -66,11 +68,11 @@ ISR(USART_RX_vect) {
 }
 
 void initUSART(){
-	/*Set baud rate */
+	/*Set baud rate (19.2 Kbps) */
 	UBRR0H = 0x00;
 	UBRR0L = 0x19;
 	 
-	/* Enable dual speed 38.4 Kbps */
+	/* Enable dual speed (38.4 Kbps) */
 	UCSR0A = (1 << U2X0);
 
 	/*Enable receiver and transmitter */

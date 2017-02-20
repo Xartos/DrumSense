@@ -26,18 +26,25 @@
 #define UART_RESPONSE_ACK 0
 #define UART_RESPONSE_NACK 1
 
-#define UART_STATUS_LISTENING 0
+typedef enum status_t {
+	UART_STATUS_LISTENING, 
+	UART_STATUS_IDLE, 
+	UART_STATUS_ACTIVE, 
+	UART_STATUS_PART
+} status_t;
+
+/*#define UART_STATUS_LISTENING 0
 #define UART_STATUS_IDLE 1
 #define UART_STATUS_ACTIVE 2
-#define UART_STATUS_PART 3
+#define UART_STATUS_PART 3*/
 /*#define UART_STATUS_LISTEN 0
 #define UART_STATUS_LISTEN 0
 #define UART_STATUS_LISTEN 0
 #define UART_STATUS_LISTEN 0*/
 
 typedef struct UART_t {
-	uint8_t status; // Master init with a stop command
-	uint8_t lastStatus;
+	status_t status; // Master init with a stop command
+	status_t lastStatus;
 	uint8_t (*RecieveCallback)(uint8_t, uint8_t);
 	uint8_t addr;
 	uint8_t command;
